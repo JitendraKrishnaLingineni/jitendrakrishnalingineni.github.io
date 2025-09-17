@@ -2,19 +2,87 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Project 5 | Jitendra Krishna</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Modal Styling */
+    body { font-size: 1.1rem; background: #fff; color: #1a202c; }
+
+    /* Modal backdrop + animation */
     #imageModal {
-      display: none;
-    }
-    #imageModal.active {
+      position: fixed;
+      inset: 0;
       display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.85);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.35s ease, visibility 0.35s;
+      z-index: 9999;
     }
+    #imageModal.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Modal image fade in/out */
+    #modalImg {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 1rem;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+      display: block;
+      opacity: 0;
+      transform: scale(0.98);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    #modalImg.loaded { opacity: 1; transform: scale(1); }
+
+    /* Close button */
+    .modal-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 2rem;
+      color: white;
+      font-size: 2.25rem;
+      cursor: pointer;
+      z-index: 10000;
+      user-select: none;
+    }
+
+    /* Arrow buttons */
+    .modal-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: #fff;
+      background: rgba(0,0,0,0.6);
+      padding: 0.75rem 1.1rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      user-select: none;
+      z-index: 10000;
+      transition: background 0.25s ease, transform 0.18s ease, opacity 0.25s ease;
+      opacity: 0;
+    }
+    .modal-arrow.left { left: 1.5rem; }
+    .modal-arrow.right { right: 1.5rem; }
+    .modal-arrow:hover { background: rgba(0,0,0,0.85); transform: translateY(-50%) scale(1.08); }
+    #imageModal.open:hover .modal-arrow { opacity: 1; }
+
+    /* Thumbnail hover effect */
+    .popup-img { transition: transform 0.35s ease; will-change: transform; cursor: pointer; }
+    .popup-img:hover { transform: scale(1.06); }
+
+    /* Scroll reveal fade-zoom */
+    .fade-zoom { opacity: 0; transform: scale(0.98); transition: all 0.6s ease; }
+    .fade-zoom.show { opacity: 1; transform: scale(1); }
   </style>
 </head>
+
 <body class="bg-white text-gray-900">
 
   <!-- Back Button -->
@@ -30,104 +98,136 @@
     </p>
   </section>
 
-  <!-- Zig-Zag Project Sections -->
+  <!-- Project Sections -->
   <section class="max-w-6xl mx-auto py-12 px-6 space-y-16">
 
     <!-- Block 1 -->
-    <div class="grid md:grid-cols-2 gap-8 items-center">
-      <!-- Image Left -->
-      <div>
-        <img src="./images/5a.png" alt="Project 5 Image 1"
-          class="rounded-xl shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300"
-          onclick="openModal(this.src)" />
-      </div>
-      <!-- Text Right -->
+    <div class="grid md:grid-cols-2 gap-8 items-center fade-zoom">
+      <img src="./images/5a.png" alt="Project 5 Image 1" class="w-full h-auto rounded-xl shadow-lg popup-img" data-index="0" />
       <div>
         <h2 class="text-3xl font-semibold mb-4">S I T E</h2>
         <div class="space-y-2 text-gray-700">
-          <p><span class="font-bold">Site:</span> PWD maidan, Maidan, Kolkata, West Bengal, India.</p>
-          <p><span class="font-bold">Coordinates:</span> Approx. 22°33'23"N 88°20'43"E</p>
-          <p><span class="font-bold">Site Area:</span> 7901 Sq.m (1.95 Acres)</p>
-          <p class="mb-6"><span class="font-bold">Architecture:</span> Victorian Style</p>
-          <p>
-            The proposal transforms a vacant triangular plot in Kolkata into a multifunctional urban park. 
-            The design integrates various amenities for the people of Kolkata.
-          </p>
+          <p><strong>Site:</strong> PWD maidan, Maidan, Kolkata, West Bengal, India.</p>
+          <p><strong>Coordinates:</strong> Approx. 22°33'23"N 88°20'43"E</p>
+          <p><strong>Site Area:</strong> 7901 Sq.m (1.95 Acres)</p>
+          <p><strong>Architecture:</strong> Victorian Style</p>
+          <p>The proposal transforms a vacant triangular plot in Kolkata into a multifunctional urban park, integrating various amenities for the people of Kolkata.</p>
         </div>
       </div>
     </div>
 
     <!-- Block 2 (reverse) -->
-    <div class="grid md:grid-cols-2 gap-8 items-center">
-      <!-- Text Left -->
+    <div class="grid md:grid-cols-2 gap-8 items-center fade-zoom">
       <div>
         <h2 class="text-3xl font-semibold mb-4">E X I S T I N G  I S S U E S</h2>
-        <p class="text-gray-700 leading-relaxed">
-          The site lacks basic infrastructure such as seating, pathways, and pedestrian facilities, making it underutilized.
-        </p>
+        <p class="text-gray-700 leading-relaxed">The site lacks basic infrastructure such as seating, pathways, and pedestrian facilities, making it underutilized.</p>
       </div>
-      <!-- Image Right -->
       <div>
-        <img src="./images/5b.png" alt="Project 5 Image 2"
-          class="rounded-xl shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300"
-          onclick="openModal(this.src)" />
+        <img src="./images/5b.png" alt="Project 5 Image 2" class="w-full h-auto rounded-xl shadow-lg popup-img" data-index="1" />
       </div>
     </div>
 
     <!-- Block 3 -->
-    <div class="grid md:grid-cols-2 gap-8 items-center">
-      <!-- Image Left -->
-      <div>
-        <img src="./images/5c.png" alt="Project 5 Image 3"
-          class="rounded-xl shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300"
-          onclick="openModal(this.src)" />
-      </div>
-      <!-- Text Right -->
+    <div class="grid md:grid-cols-2 gap-8 items-center fade-zoom">
+      <img src="./images/5c.png" alt="Project 5 Image 3" class="w-full h-auto rounded-xl shadow-lg popup-img" data-index="2" />
       <div>
         <h2 class="text-3xl font-semibold mb-4">P R O P O S E D  P A R K</h2>
-        <p class="text-gray-700 leading-relaxed">
-          The landscape strategy emphasizes greenery, shaded tree zones, and interconnected pathways,
-          creating a balanced environment that supports recreation, leisure, and social interaction.
-        </p>
+        <p class="text-gray-700 leading-relaxed">The landscape strategy emphasizes greenery, shaded tree zones, and interconnected pathways, creating a balanced environment for recreation, leisure, and social interaction.</p>
       </div>
     </div>
 
     <!-- Project Gallery -->
-    <div class="mt-20 text-center">
+    <div class="mt-20 text-center fade-zoom">
       <h2 class="text-4xl font-bold mb-12">P R O J E C T &nbsp; G A L L E R Y</h2>
       <div class="grid md:grid-cols-4 gap-8">
-        <img src="./images/5d.png" alt="Gallery 1" class="rounded-xl shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300" onclick="openModal(this.src)" />
-        <img src="./images/5e.png" alt="Gallery 2" class="rounded-xl shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300" onclick="openModal(this.src)" />
-        <img src="./images/5f.png" alt="Gallery 3" class="rounded-xl shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300" onclick="openModal(this.src)" />
-        <img src="./images/5g.png" alt="Gallery 4" class="rounded-xl shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300" onclick="openModal(this.src)" />
-        <img src="./images/5h.png" alt="Gallery 5" class="rounded-xl shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300" onclick="openModal(this.src)" />
-        <img src="./images/5i.png" alt="Gallery 6" class="rounded-xl shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300" onclick="openModal(this.src)" />
-        <img src="./images/5j.png" alt="Gallery 7" class="rounded-xl shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300" onclick="openModal(this.src)" />
-        <img src="./images/5k.png" alt="Gallery 8" class="rounded-xl shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300" onclick="openModal(this.src)" />
+        <img src="./images/5d.png" class="rounded-xl shadow-lg popup-img" data-index="3" />
+        <img src="./images/5e.png" class="rounded-xl shadow-lg popup-img" data-index="4" />
+        <img src="./images/5f.png" class="rounded-xl shadow-lg popup-img" data-index="5" />
+        <img src="./images/5g.png" class="rounded-xl shadow-lg popup-img" data-index="6" />
+        <img src="./images/5h.png" class="rounded-xl shadow-lg popup-img" data-index="7" />
+        <img src="./images/5i.png" class="rounded-xl shadow-lg popup-img" data-index="8" />
+        <img src="./images/5j.png" class="rounded-xl shadow-lg popup-img" data-index="9" />
+        <img src="./images/5k.png" class="rounded-xl shadow-lg popup-img" data-index="10" />
       </div>
     </div>
 
   </section>
 
-  <!-- Back to Portfolio Button -->
+  <!-- Modal with arrows -->
+  <div id="imageModal" aria-hidden="true" role="dialog" aria-label="Image viewer">
+    <div class="modal-close" role="button" aria-label="Close" onclick="closeModal()">×</div>
+    <button class="modal-arrow left" aria-label="Previous image" onclick="changeImage(-1)">&#10094;</button>
+    <img id="modalImg" src="" alt="Open project image">
+    <button class="modal-arrow right" aria-label="Next image" onclick="changeImage(1)">&#10095;</button>
+  </div>
+
+  <!-- Back Button -->
   <div class="max-w-6xl mx-auto px-6 py-12 text-center">
     <a href="index.html" class="inline-block px-6 py-3 bg-black text-white rounded-full hover:bg-gray-800">Back to Portfolio</a>
   </div>
 
-  <!-- Image Modal -->
-  <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-80 items-center justify-center z-50">
-    <span class="absolute top-6 right-10 text-white text-4xl cursor-pointer" onclick="closeModal()">&times;</span>
-    <img id="modalImage" src="" class="max-h-[90%] max-w-[90%] mx-auto rounded-xl shadow-2xl" />
-  </div>
-
   <script>
-    function openModal(src) {
-      document.getElementById("modalImage").src = src;
-      document.getElementById("imageModal").classList.add("active");
+    // Scroll reveal
+    const fadeElems = document.querySelectorAll('.fade-zoom');
+    function revealOnScroll() {
+      fadeElems.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) el.classList.add('show');
+      });
     }
+    window.addEventListener('load', revealOnScroll);
+    window.addEventListener('scroll', revealOnScroll);
+
+    // Modal functionality
+    const popupThumbs = Array.from(document.querySelectorAll('.popup-img'));
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImg');
+    let currentIndex = 0;
+
+    popupThumbs.forEach((thumb, i) => {
+      thumb.addEventListener('click', () => openModal(i));
+    });
+
+    function openModal(index) {
+      currentIndex = index;
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+      modalImg.classList.remove('loaded');
+      modalImg.src = popupThumbs[currentIndex].src;
+      modalImg.onload = () => requestAnimationFrame(() => modalImg.classList.add('loaded'));
+    }
+
     function closeModal() {
-      document.getElementById("imageModal").classList.remove("active");
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+      setTimeout(() => { modalImg.src = ''; modalImg.classList.remove('loaded'); }, 300);
     }
+
+    function changeImage(step) {
+      currentIndex = (currentIndex + step + popupThumbs.length) % popupThumbs.length;
+      modalImg.classList.remove('loaded');
+      setTimeout(() => { modalImg.src = popupThumbs[currentIndex].src; }, 60);
+      modalImg.onload = () => modalImg.classList.add('loaded');
+    }
+
+    modal.addEventListener('click', (e) => { if(e.target === modal) closeModal(); });
+
+    document.addEventListener('keydown', e => {
+      if(!modal.classList.contains('open')) return;
+      if(e.key === 'ArrowLeft') changeImage(-1);
+      if(e.key === 'ArrowRight') changeImage(1);
+      if(e.key === 'Escape') closeModal();
+    });
+
+    // Swipe gestures
+    let touchStartX = 0;
+    modal.addEventListener('touchstart', e => { if(!modal.classList.contains('open')) return; touchStartX = e.changedTouches[0].clientX; }, {passive:true});
+    modal.addEventListener('touchend', e => { 
+      if(!modal.classList.contains('open')) return;
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if(dx > 50) changeImage(-1);
+      if(dx < -50) changeImage(1);
+    }, {passive:true});
   </script>
 
 </body>
