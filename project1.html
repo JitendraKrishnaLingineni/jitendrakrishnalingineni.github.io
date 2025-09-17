@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project 1 | Jitendra Krishna</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Popup Modal Styling */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 50;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.85);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 1rem;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.6);
+    }
+    .close {
+      position: absolute;
+      top: 2rem;
+      right: 3rem;
+      font-size: 3rem;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body class="bg-white text-gray-900">
+
+  <!-- Back Button -->
+  <div class="max-w-6xl mx-auto px-6 py-6">
+    <a href="index.html" class="text-black font-bold text-2xl hover:text-gray-700">← Back to Portfolio</a>
+  </div>
+
+  <!-- Project Hero -->
+  <section class="relative h-80 flex flex-col justify-center items-center text-center bg-gray-100 mb-12">
+    <h1 class="text-5xl md:text-6xl font-bold mb-4 tracking-[0.5em]">
+      ARCHITECTURAL THESIS
+    </h1>
+    <p class="text-xl md:text-2xl text-gray-600">CONNEXUS: A MULTI MODAL TRANSIT HUB, VIJAYAWADA</p>
+  </section>
+
+  <!-- Zig-Zag Project Sections -->
+  <section class="max-w-6xl mx-auto py-12 px-6 space-y-16">
+
+    <!-- Block 1 -->
+    <div class="grid md:grid-cols-2 gap-8 items-center">
+      <img src="./images/1aa.png" alt="Project 1 Image 1" class="rounded-xl shadow-lg cursor-pointer popup-img" />
+      <div>
+        <h2 class="text-3xl font-semibold mb-4">S I T E</h2>
+        <div class="space-y-2 leading-relaxed text-gray-700">
+          <p><strong>Site</strong>: Near Pandit Nehru Bus Station (PNBS), Vijayawada, Andhra Pradesh.</p>
+          <p><strong>Coordinates</strong>: Approx. 16.509° N, 80.618° E</p>
+          <p><strong>Client</strong>: Government Of Andhra Pradesh</p>
+          <p><strong>Connectivity</strong>: Adjacent to Vijayawada Railway Station and proposed metro corridors</p>
+          <p>
+            To design a futuristic, efficient, and user-centric Multimodal Transit Hub in Vijayawada that enhances
+            interconnectivity between metro, rail, and bus services, while incorporating public and commercial spaces to
+            support a Live-Work-Play urban lifestyle.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Block 2 -->
+    <div class="grid md:grid-cols-2 gap-8 items-center">
+      <div class="md:order-2">
+        <img src="./images/1ab.png" alt="Project 1 Image 2" class="rounded-xl shadow-lg cursor-pointer popup-img" />
+      </div>
+      <div class="md:order-1">
+        <h2 class="text-3xl font-semibold mb-4">M A S T E R &nbsp; P L A N</h2>
+        <div class="text-gray-800">
+          <p>1. MRTS STATION</p>
+          <p>2. URBAN PLAZA</p>
+          <p>3. WATERFRONT PARKS</p>
+          <p>4. CITY BUS TERMINUS</p>
+          <p>5. M.L.C.P</p>
+          <p>6. SKYWALK</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Block 3 -->
+    <div class="grid md:grid-cols-2 gap-8 items-center">
+      <img src="images/1b.png" alt="Project 1 Image 3" class="rounded-xl shadow-lg cursor-pointer popup-img" />
+      <div>
+        <h2 class="text-3xl font-semibold mb-4">F L O O R &nbsp; P L A N S</h2>
+        <div class="text-gray-800 space-y-4 leading-relaxed">
+          <p><strong>Ground Floor Plan:</strong><br>
+            The ground floor of the Connexus hub serves as the primary public interface, designed for comfort,
+            orientation, and flow. It features a dual-entry system — one for general public use and another for staff and
+            operational control.
+          </p>
+          <p><strong>First Floor Plan:</strong><br>
+            The first floor functions as the main concourse level, where passengers begin their pre-boarding process,
+            combining paid and unpaid areas for smooth and secured transitions.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Block 4 -->
+    <div class="grid md:grid-cols-2 gap-8 items-center">
+      <div class="md:order-2">
+        <img src="images/1c.png" alt="Project 1 Image 4" class="rounded-xl shadow-lg cursor-pointer popup-img" />
+      </div>
+      <div class="md:order-1">
+        <h2 class="text-3xl font-semibold mb-4">F L O O R &nbsp; P L A N S</h2>
+        <div class="text-gray-800 space-y-4 leading-relaxed">
+          <p><strong>Second Floor:</strong><br>
+            The second floor functions as the first elevated platform level, accommodating both passenger movement and
+            critical infrastructure. The layout is bifurcated into public transit and service-oriented zones.
+          </p>
+          <p><strong>Third Floor:</strong><br>
+            The third floor is a combination of second-tier passenger transit access and administrative/executive
+            operations, ensuring seamless connectivity and institutional functionality.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Block 5 -->
+    <div class="grid md:grid-cols-2 gap-8 items-center">
+      <img src="images/1e.png" alt="Project 1 Image 5" class="rounded-xl shadow-lg cursor-pointer popup-img" />
+      <div>
+        <h2 class="text-3xl font-semibold mb-4">F L O O R &nbsp; P L A N S</h2>
+        <div class="text-gray-800 space-y-4 leading-relaxed">
+          <p><strong>Fourth to Seventh Floor:</strong><br>
+            These four upper floors are typical layouts designed to accommodate a blend of government departments and
+            private corporate offices, fostering institutional synergy within the transit hub ecosystem.
+          </p>
+          <p><strong>Workstations:</strong> &nbsp; 432 (108 Each Floor)</p>
+          <p><strong>Urban Plaza:</strong><br>
+            Recreational forecourt with kiosks. At the ground level, adjacent to the main public entry, the Urban Plaza
+            acts as a vibrant recreational and social interface for users.
+          </p>
+          <p><strong>Kiosks:</strong> &nbsp; 14 (Includes Retail & Eateries)</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Block 6 -->
+    <div class="grid md:grid-cols-2 gap-8 items-center">
+      <div class="md:order-2">
+        <img src="images/1g.png" alt="Project 1 Image 6" class="rounded-xl shadow-lg cursor-pointer popup-img" />
+      </div>
+      <div class="md:order-1">
+        <h2 class="text-3xl font-semibold mb-4">M U L T I - L E V E L C A R P A R K I N G</h2>
+        <div class="text-gray-800 space-y-4 leading-relaxed">
+          <p>A dedicated MLCP is proposed to manage vehicles from metro commuters, bus passengers, and visitors to nearby recreational areas.</p>
+          <p><strong>Connectivity:</strong> A skywalk links the MLCP with the proposed metro, bus terminal, concourse, and recreational zones, ensuring seamless intermodal access.</p>
+          <p><strong>Design Features:</strong></p>
+          <ul class="list-disc list-inside space-y-1 ml-6">
+            <li><strong>Ramp Width:</strong> 7 m</li>
+            <li><strong>Gradient:</strong> 1:10 (as per IRC/NBC)</li>
+            <li><strong>Circulation:</strong> Separate entry/exit ramps for smooth flow</li>
+          </ul>
+          <p><strong>Configuration:</strong> Basement + 3 Floors + Rooftop</p>
+          <p><strong>Capacity:</strong> 458 Cars and 1,000+ Two-Wheelers</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Block 7 -->
+    <div class="grid md:grid-cols-2 gap-8 items-center">
+      <img src="images/1f.png" alt="Project 1 Image 7" class="rounded-xl shadow-lg cursor-pointer popup-img" />
+      <div>
+        <div class="text-gray-800 space-y-4 leading-relaxed">
+          <p><strong>SKYWALK:</strong><br>
+            A 624-meter elevated Skywalk Network is proposed to ensure safe, seamless, and comfortable pedestrian mobility across the Connexus Transit Hub and its surroundings.
+          </p>
+          <p><strong>Key Connections:</strong></p>
+          <ul class="list-disc list-inside space-y-1 ml-6">
+            <li>Vijayawada Railway Station</li>
+            <li>Government Hospital</li>
+            <li>VMC City Park</li>
+            <li>City Bus Terminus</li>
+            <li>Metro Station</li>
+            <li>PNBS Main Bus Stand</li>
+            <li>Multi-Level Car Parking (MLCP)</li>
+          </ul>
+          <p><strong>CITY BUS PORT:</strong><br>
+            The proposed City Bus Terminus at Connexus Transit Hub is a facility designed to handle 400 buses daily across 53 routes, strengthening intra-city connectivity.
+          </p>
+          <p><strong>Bus Bay:</strong> 18 (Upgraded from previous 10)</p>
+          <p><strong>Accommodate:</strong> 90 - 100k Passengers daily</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Extra Images Section -->
+    <div class="mt-16 text-center">
+      <h2 class="text-3xl font-bold mb-8">P R O J E C T &nbsp; G A L L E R Y</h2>
+      <div class="flex justify-center gap-8 mb-8">
+        <img src="./images/1h.png" alt="Project 1 Image 8" class="w-[400px] rounded-xl shadow-lg cursor-pointer popup-img hover:scale-105 transition-transform duration-300" />
+        <img src="images/Project - 1.jpg" alt="Project 1 Image 9" class="w-[400px] rounded-xl shadow-lg cursor-pointer popup-img hover:scale-105 transition-transform duration-300" />
+      </div>
+      <div class="flex justify-center gap-8">
+        <img src="images/1l.png" alt="Project 1 Image 10" class="w-[400px] rounded-xl shadow-lg cursor-pointer popup-img hover:scale-105 transition-transform duration-300" />
+        <img src="images/1m.png" alt="Project 1 Image 11" class="w-[400px] rounded-xl shadow-lg cursor-pointer popup-img hover:scale-105 transition-transform duration-300" />
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Back to Portfolio Button -->
+  <div class="max-w-6xl mx-auto px-6 py-12 text-center">
+    <a href="index.html" class="inline-block px-6 py-3 bg-black text-white rounded-full hover:bg-gray-800">Back to Portfolio</a>
+  </div>
+
+  <!-- Popup Modal -->
+  <div id="popupModal" class="modal">
+    <span class="close">&times;</span>
+    <img id="popupImage" src="" alt="Popup Image">
+  </div>
+
+  <script>
+    const modal = document.getElementById("popupModal");
+    const modalImg = document.getElementById("popupImage");
+    const closeBtn = document.querySelector(".close");
+    const images = document.querySelectorAll(".popup-img");
+
+    images.forEach(img => {
+      img.addEventListener("click", () => {
+        modal.style.display = "flex";
+        modalImg.src = img.src;
+      });
+    });
+
+    closeBtn.onclick = () => {
+      modal.style.display = "none";
+    };
+
+    modal.onclick = (e) => {
+      if (e.target === modal) {
+        modal.style.display = "none";
+      }
+    };
+  </script>
+
+</body>
+</html>
