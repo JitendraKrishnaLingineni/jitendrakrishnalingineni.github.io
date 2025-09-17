@@ -7,34 +7,89 @@
   <title>Project 1 | Jitendra Krishna</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Popup Modal Styling */
-    .modal {
-      display: none;
+    /* Modal backdrop + animation (Project 3 style) */
+    #imageModal {
       position: fixed;
-      z-index: 50;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.85);
-      justify-content: center;
+      inset: 0;
+      display: flex;
       align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.85);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.35s ease, visibility 0.35s;
+      z-index: 9999;
     }
-    .modal img {
+    #imageModal.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Modal image fade in/out */
+    #modalImg {
       max-width: 90%;
       max-height: 90%;
       border-radius: 1rem;
-      box-shadow: 0 5px 25px rgba(0,0,0,0.6);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+      display: block;
+      opacity: 0;
+      transform: scale(0.98);
+      transition: opacity 0.35s ease, transform 0.35s ease;
     }
-    .close {
+    #modalImg.loaded {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Close button (top right) */
+    .modal-close {
       position: absolute;
-      top: 2rem;
-      right: 3rem;
-      font-size: 3rem;
-      font-weight: bold;
+      top: 1.5rem;
+      right: 2rem;
       color: white;
+      font-size: 2.25rem;
+      cursor: pointer;
+      z-index: 10000;
+      user-select: none;
+    }
+
+    /* Arrow buttons (match Project 3) */
+    .modal-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: #fff;
+      background: rgba(0,0,0,0.6);
+      padding: 0.75rem 1.1rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      user-select: none;
+      z-index: 10000;
+      transition: background 0.25s ease, transform 0.18s ease, opacity 0.25s ease;
+      opacity: 0; /* hidden by default — will show on hover */
+    }
+    .modal-arrow.left { left: 1.5rem; }
+    .modal-arrow.right { right: 1.5rem; }
+    .modal-arrow:hover { background: rgba(0,0,0,0.85); transform: translateY(-50%) scale(1.08); }
+
+    /* Show arrows only when modal is open and hovered */
+    #imageModal.open:hover .modal-arrow { opacity: 1; }
+
+    /* Thumbnail hover effect */
+    .popup-img {
+      transition: transform 0.35s ease;
+      will-change: transform;
       cursor: pointer;
     }
+    .popup-img:hover {
+      transform: scale(1.06);
+    }
+
+    /* subtle scroll-reveal */
+    .fade-zoom { opacity: 0; transform: scale(0.98); transition: all 0.6s ease; }
+    .fade-zoom.show { opacity: 1; transform: scale(1); }
   </style>
 </head>
 
@@ -50,14 +105,16 @@
     <h1 class="text-5xl md:text-6xl font-bold mb-4 tracking-[0.5em]">
       ARCHITECTURAL THESIS
     </h1>
-    <p class="text-xl md:text-2xl text-gray-600">CONNEXUS: A MULTI MODAL TRANSIT HUB, VIJAYAWADA</p>
+    <p class="text-xl md:text-2xl text-gray-600">
+      CONNEXUS: A MULTI MODAL TRANSIT HUB, VIJAYAWADA
+    </p>
   </section>
 
   <!-- Zig-Zag Project Sections -->
   <section class="max-w-6xl mx-auto py-12 px-6 space-y-16">
 
     <!-- Block 1 -->
-    <div class="grid md:grid-cols-2 gap-8 items-center">
+    <div class="grid md:grid-cols-2 gap-8 items-center fade-zoom">
       <img src="./images/1aa.png" alt="Project 1 Image 1" class="rounded-xl shadow-lg cursor-pointer popup-img" />
       <div>
         <h2 class="text-3xl font-semibold mb-4">S I T E</h2>
@@ -76,7 +133,7 @@
     </div>
 
     <!-- Block 2 -->
-    <div class="grid md:grid-cols-2 gap-8 items-center">
+    <div class="grid md:grid-cols-2 gap-8 items-center fade-zoom">
       <div class="md:order-2">
         <img src="./images/1ab.png" alt="Project 1 Image 2" class="rounded-xl shadow-lg cursor-pointer popup-img" />
       </div>
@@ -94,26 +151,23 @@
     </div>
 
     <!-- Block 3 -->
-    <div class="grid md:grid-cols-2 gap-8 items-center">
+    <div class="grid md:grid-cols-2 gap-8 items-center fade-zoom">
       <img src="images/1b.png" alt="Project 1 Image 3" class="rounded-xl shadow-lg cursor-pointer popup-img" />
       <div>
         <h2 class="text-3xl font-semibold mb-4">F L O O R &nbsp; P L A N S</h2>
         <div class="text-gray-800 space-y-4 leading-relaxed">
           <p><strong>Ground Floor Plan:</strong><br>
-            The ground floor of the Connexus hub serves as the primary public interface, designed for comfort,
-            orientation, and flow. It features a dual-entry system — one for general public use and another for staff and
-            operational control.
+            The ground floor of the Connexus hub serves as the primary public interface, designed for comfort, orientation, and flow. It features a dual-entry system — one for general public use and another for staff and operational control.
           </p>
           <p><strong>First Floor Plan:</strong><br>
-            The first floor functions as the main concourse level, where passengers begin their pre-boarding process,
-            combining paid and unpaid areas for smooth and secured transitions.
+            The first floor functions as the main concourse level, where passengers begin their pre-boarding process, combining paid and unpaid areas for smooth and secured transitions.
           </p>
         </div>
       </div>
     </div>
 
     <!-- Block 4 -->
-    <div class="grid md:grid-cols-2 gap-8 items-center">
+    <div class="grid md:grid-cols-2 gap-8 items-center fade-zoom">
       <div class="md:order-2">
         <img src="images/1c.png" alt="Project 1 Image 4" class="rounded-xl shadow-lg cursor-pointer popup-img" />
       </div>
@@ -121,31 +175,27 @@
         <h2 class="text-3xl font-semibold mb-4">F L O O R &nbsp; P L A N S</h2>
         <div class="text-gray-800 space-y-4 leading-relaxed">
           <p><strong>Second Floor:</strong><br>
-            The second floor functions as the first elevated platform level, accommodating both passenger movement and
-            critical infrastructure. The layout is bifurcated into public transit and service-oriented zones.
+            The second floor functions as the first elevated platform level, accommodating both passenger movement and critical infrastructure. The layout is bifurcated into public transit and service-oriented zones.
           </p>
           <p><strong>Third Floor:</strong><br>
-            The third floor is a combination of second-tier passenger transit access and administrative/executive
-            operations, ensuring seamless connectivity and institutional functionality.
+            The third floor is a combination of second-tier passenger transit access and administrative/executive operations, ensuring seamless connectivity and institutional functionality.
           </p>
         </div>
       </div>
     </div>
 
     <!-- Block 5 -->
-    <div class="grid md:grid-cols-2 gap-8 items-center">
+    <div class="grid md:grid-cols-2 gap-8 items-center fade-zoom">
       <img src="images/1e.png" alt="Project 1 Image 5" class="rounded-xl shadow-lg cursor-pointer popup-img" />
       <div>
         <h2 class="text-3xl font-semibold mb-4">F L O O R &nbsp; P L A N S</h2>
         <div class="text-gray-800 space-y-4 leading-relaxed">
           <p><strong>Fourth to Seventh Floor:</strong><br>
-            These four upper floors are typical layouts designed to accommodate a blend of government departments and
-            private corporate offices, fostering institutional synergy within the transit hub ecosystem.
+            These four upper floors are typical layouts designed to accommodate a blend of government departments and private corporate offices, fostering institutional synergy within the transit hub ecosystem.
           </p>
           <p><strong>Workstations:</strong> &nbsp; 432 (108 Each Floor)</p>
           <p><strong>Urban Plaza:</strong><br>
-            Recreational forecourt with kiosks. At the ground level, adjacent to the main public entry, the Urban Plaza
-            acts as a vibrant recreational and social interface for users.
+            Recreational forecourt with kiosks. At the ground level, adjacent to the main public entry, the Urban Plaza acts as a vibrant recreational and social interface for users.
           </p>
           <p><strong>Kiosks:</strong> &nbsp; 14 (Includes Retail & Eateries)</p>
         </div>
@@ -153,7 +203,7 @@
     </div>
 
     <!-- Block 6 -->
-    <div class="grid md:grid-cols-2 gap-8 items-center">
+    <div class="grid md:grid-cols-2 gap-8 items-center fade-zoom">
       <div class="md:order-2">
         <img src="images/1g.png" alt="Project 1 Image 6" class="rounded-xl shadow-lg cursor-pointer popup-img" />
       </div>
@@ -175,7 +225,7 @@
     </div>
 
     <!-- Block 7 -->
-    <div class="grid md:grid-cols-2 gap-8 items-center">
+    <div class="grid md:grid-cols-2 gap-8 items-center fade-zoom">
       <img src="images/1f.png" alt="Project 1 Image 7" class="rounded-xl shadow-lg cursor-pointer popup-img" />
       <div>
         <div class="text-gray-800 space-y-4 leading-relaxed">
@@ -201,55 +251,132 @@
       </div>
     </div>
 
-    <!-- Extra Images Section -->
-    <div class="mt-16 text-center">
+    <!-- Project Gallery -->
+    <div class="mt-16 text-center fade-zoom">
       <h2 class="text-3xl font-bold mb-8">P R O J E C T &nbsp; G A L L E R Y</h2>
-      <div class="flex justify-center gap-8 mb-8">
-        <img src="./images/1h.png" alt="Project 1 Image 8" class="w-[400px] rounded-xl shadow-lg cursor-pointer popup-img hover:scale-105 transition-transform duration-300" />
-        <img src="images/Project - 1.jpg" alt="Project 1 Image 9" class="w-[400px] rounded-xl shadow-lg cursor-pointer popup-img hover:scale-105 transition-transform duration-300" />
+      <div class="flex justify-center gap-8 mb-8 flex-wrap">
+        <img src="./images/1h.png" alt="Project 1 Image 8"
+          class="w-[400px] rounded-xl shadow-lg cursor-pointer popup-img hover:scale-105 transition-transform duration-300" />
+        <img src="images/Project - 1.jpg" alt="Project 1 Image 9"
+          class="w-[400px] rounded-xl shadow-lg cursor-pointer popup-img hover:scale-105 transition-transform duration-300" />
       </div>
-      <div class="flex justify-center gap-8">
-        <img src="images/1l.png" alt="Project 1 Image 10" class="w-[400px] rounded-xl shadow-lg cursor-pointer popup-img hover:scale-105 transition-transform duration-300" />
-        <img src="images/1m.png" alt="Project 1 Image 11" class="w-[400px] rounded-xl shadow-lg cursor-pointer popup-img hover:scale-105 transition-transform duration-300" />
+      <div class="flex justify-center gap-8 flex-wrap">
+        <img src="images/1l.png" alt="Project 1 Image 10"
+          class="w-[400px] rounded-xl shadow-lg cursor-pointer popup-img hover:scale-105 transition-transform duration-300" />
+        <img src="images/1m.png" alt="Project 1 Image 11"
+          class="w-[400px] rounded-xl shadow-lg cursor-pointer popup-img hover:scale-105 transition-transform duration-300" />
       </div>
     </div>
-
   </section>
 
   <!-- Back to Portfolio Button -->
   <div class="max-w-6xl mx-auto px-6 py-12 text-center">
-    <a href="index.html" class="inline-block px-6 py-3 bg-black text-white rounded-full hover:bg-gray-800">Back to Portfolio</a>
+    <a href="index.html" class="inline-block px-6 py-3 bg-black text-white rounded-full hover:bg-gray-800">Back to
+      Portfolio</a>
   </div>
 
-  <!-- Popup Modal -->
-  <div id="popupModal" class="modal">
-    <span class="close">&times;</span>
-    <img id="popupImage" src="" alt="Popup Image">
+  <!-- Modal (Project 3 style) -->
+  <div id="imageModal" aria-hidden="true" role="dialog" aria-label="Image viewer">
+    <div class="modal-close" role="button" aria-label="Close" onclick="closeModal()">×</div>
+
+    <!-- left arrow -->
+    <button class="modal-arrow left" aria-label="Previous image" onclick="changeImage(-1)">&#10094;</button>
+
+    <!-- image -->
+    <img id="modalImg" src="" alt="Open project image">
+
+    <!-- right arrow -->
+    <button class="modal-arrow right" aria-label="Next image" onclick="changeImage(1)">&#10095;</button>
   </div>
 
   <script>
-    const modal = document.getElementById("popupModal");
-    const modalImg = document.getElementById("popupImage");
-    const closeBtn = document.querySelector(".close");
-    const images = document.querySelectorAll(".popup-img");
+    // collect all popup thumbnails (in document order)
+    const popupThumbs = Array.from(document.querySelectorAll('.popup-img'));
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImg');
+    const leftBtn = document.querySelector('.modal-arrow.left');
+    const rightBtn = document.querySelector('.modal-arrow.right');
+    let currentIndex = 0;
 
-    images.forEach(img => {
-      img.addEventListener("click", () => {
-        modal.style.display = "flex";
-        modalImg.src = img.src;
-      });
+    // add click handlers to thumbnails
+    popupThumbs.forEach((thumb, i) => {
+      thumb.addEventListener('click', () => openModal(i));
     });
 
-    closeBtn.onclick = () => {
-      modal.style.display = "none";
-    };
+    // open modal by index
+    function openModal(index) {
+      currentIndex = index;
+      // ensure modal is visible
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
 
-    modal.onclick = (e) => {
-      if (e.target === modal) {
-        modal.style.display = "none";
-      }
-    };
+      // prepare image fade: remove loaded class then set src, add loaded on load
+      modalImg.classList.remove('loaded');
+      modalImg.src = popupThumbs[currentIndex].src;
+      // ensure image fades in when ready
+      modalImg.onload = () => {
+        // force a small delay so transition is visible
+        requestAnimationFrame(() => modalImg.classList.add('loaded'));
+      };
+    }
+
+    function closeModal() {
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+      // clear src after closing to avoid large memory usage on mobile
+      setTimeout(() => { modalImg.src = ''; modalImg.classList.remove('loaded'); }, 300);
+    }
+
+    // change image by step (+1 or -1)
+    function changeImage(step) {
+      currentIndex = (currentIndex + step + popupThumbs.length) % popupThumbs.length;
+      // fade swap
+      modalImg.classList.remove('loaded');
+      // small timeout helps the transition look smooth on some browsers
+      setTimeout(() => {
+        modalImg.src = popupThumbs[currentIndex].src;
+      }, 60);
+      modalImg.onload = () => modalImg.classList.add('loaded');
+    }
+
+    // click outside closes
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    // keyboard nav while modal is open
+    document.addEventListener('keydown', (e) => {
+      if (!modal.classList.contains('open')) return;
+      if (e.key === 'ArrowLeft') changeImage(-1);
+      if (e.key === 'ArrowRight') changeImage(1);
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // swipe gestures on modal
+    let touchStartX = 0;
+    modal.addEventListener('touchstart', (e) => {
+      if (!modal.classList.contains('open')) return;
+      touchStartX = e.changedTouches[0].clientX;
+    }, {passive: true});
+
+    modal.addEventListener('touchend', (e) => {
+      if (!modal.classList.contains('open')) return;
+      const touchEndX = e.changedTouches[0].clientX;
+      const dx = touchEndX - touchStartX;
+      if (dx > 50) changeImage(-1);      // swipe right => prev
+      if (dx < -50) changeImage(1);      // swipe left => next
+    }, {passive: true});
+
+    // simple scroll reveal for fade-zoom class to match Project3 behavior
+    const fadeElems = document.querySelectorAll('.fade-zoom');
+    function revealOnScroll() {
+      fadeElems.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) el.classList.add('show');
+      });
+    }
+    window.addEventListener('load', revealOnScroll);
+    window.addEventListener('scroll', revealOnScroll);
   </script>
-
 </body>
 </html>
