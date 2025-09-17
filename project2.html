@@ -6,37 +6,98 @@
   <title>Project 2 | Jitendra Krishna</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Slight global zoom */
-    body {
-      font-size: 1.1rem; /* makes text larger globally */
-    }
-    /* Popup Modal Styling */
-    .modal {
-      display: none;
+    body { font-size: 1.1rem; }
+
+    /* Modal backdrop + animation (Project 3 style) adapted to existing markup (#popupModal, #popupImage, .close) */
+    #popupModal {
       position: fixed;
-      z-index: 50;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.8);
-      justify-content: center;
+      inset: 0;
+      display: flex;
       align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.85);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.35s ease, visibility 0.35s;
+      z-index: 9999;
     }
-    .modal img {
+    #popupModal.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Modal image fade in/out */
+    #popupImage {
       max-width: 90%;
       max-height: 90%;
       border-radius: 1rem;
-      box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+      display: block;
+      opacity: 0;
+      transform: scale(0.98);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      /* ensure it appears above arrows/close */
+      z-index: 10001;
     }
+    #popupImage.loaded {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Close button (kept selector .close as in your HTML) */
     .close {
       position: absolute;
-      top: 2rem;
-      right: 3rem;
-      font-size: 3rem;
-      font-weight: bold;
+      top: 1.5rem;
+      right: 2rem;
       color: white;
+      font-size: 2.25rem;
       cursor: pointer;
+      z-index: 10002;
+      user-select: none;
+    }
+
+    /* Arrow buttons (match Project 3 style) */
+    .modal-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: #fff;
+      background: rgba(0,0,0,0.6);
+      padding: 0.75rem 1.1rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      user-select: none;
+      z-index: 10002;
+      transition: background 0.25s ease, transform 0.18s ease, opacity 0.25s ease;
+      opacity: 0; /* hidden by default — will show on hover */
+    }
+    .modal-arrow.left { left: 1.5rem; }
+    .modal-arrow.right { right: 1.5rem; }
+    .modal-arrow:hover { background: rgba(0,0,0,0.85); transform: translateY(-50%) scale(1.08); }
+
+    /* Show arrows only when modal is open and hovered */
+    #popupModal.open:hover .modal-arrow { opacity: 1; }
+
+    /* Thumbnail hover effect */
+    .popup-img {
+      transition: transform 0.35s ease;
+      will-change: transform;
+      cursor: pointer;
+    }
+    .popup-img:hover {
+      transform: scale(1.06);
+    }
+
+    /* subtle scroll-reveal used in Project 3 */
+    .fade-zoom { opacity: 0; transform: scale(0.98); transition: all 0.6s ease; }
+    .fade-zoom.show { opacity: 1; transform: scale(1); }
+
+    /* Small responsive fix for very narrow screens */
+    @media (max-width: 420px) {
+      .modal-arrow { padding: 0.5rem 0.75rem; font-size: 2rem; }
+      .close { font-size: 1.8rem; right: 1rem; top: 1rem; }
     }
   </style>
 </head>
@@ -49,37 +110,37 @@
 
   <!-- Project Hero -->
   <section class="relative h-96 flex flex-col justify-center items-center text-center bg-gray-100 mb-16">
-    <h1 class="text-6xl md:text-7xl font-bold mb-6 tracking-[0.5em]"> HOUSING DESIGN </h1>
+    <h1 class="text-6xl md:text-7xl font-bold mb-6 tracking-[0.5em]">HOUSING DESIGN</h1>
     <p class="text-xl md:text-2xl text-gray-600">ONE NEIGHBORHOOD, MANY LIFESTYLES</p>
   </section>
 
-  <!-- Zig-Zag Project Sections -->
+  <!-- Project Sections -->
   <section class="max-w-7xl mx-auto py-16 px-8 space-y-20">
 
-    <!-- Block 1 -->
-    <div class="grid md:grid-cols-2 gap-12 items-center">
-      <img src="./images/2a.png" alt="Project 1 Image 1" class="rounded-2xl shadow-2xl cursor-pointer popup-img" />
+    <!-- Block 1: Site -->
+    <div class="grid md:grid-cols-2 gap-12 items-center fade-zoom">
+      <img src="./images/2a.png" alt="Project Image Site" class="rounded-2xl shadow-2xl cursor-pointer popup-img" />
       <div>
         <h2 class="text-4xl font-semibold mb-6">S I T E</h2>
         <div class="space-y-3 leading-relaxed text-gray-700 text-lg">
           <p><strong>Site</strong>: Karaikudi, Sivaganga District,Tamilnadu, India.</p>
           <p><strong>Coordinates</strong>: Approx. 10°02'57"N 78°46'37"E</p>
           <p><strong>Site Area</strong>: 20272 Sq.m (5.01 Acres)</p>
-          <p><strong>O.S.R(10%)</strong>: 2027Sq.m</p>
+          <p><strong>O.S.R(10%)</strong>: 2027 Sq.m</p>
           <p><strong>F.A.R</strong>: 0.9</p>
-          <p>The proposed housing project in Karaikudi creates an inclusive community with units for EWS, LIG, MIG, and HIG groups. Planned with amenities like a play area, clubhouse, swimming pool, and reserved plots for future growth, the design promotes livability, accessibility, community development.</p>
+          <p>The proposed housing project creates an inclusive community for EWS, LIG, MIG, and HIG groups. Planned amenities include play area, clubhouse, swimming pool, and reserved plots for future growth.</p>
         </div>
       </div>
     </div>
 
-    <!-- Block 2 (reverse) -->
-    <div class="grid md:grid-cols-2 gap-12 items-center">
+    <!-- Block 2: EWS -->
+    <div class="grid md:grid-cols-2 gap-12 items-center fade-zoom">
       <div class="md:order-2">
-        <img src="images/2b.png" alt="Project 2 Image 2" class="rounded-2xl shadow-2xl cursor-pointer popup-img" />
+        <img src="images/2b.png" alt="Project EWS" class="rounded-2xl shadow-2xl cursor-pointer popup-img" />
       </div>
       <div class="md:order-1">
         <h2 class="text-4xl font-semibold mb-6">E.W.S</h2>
-        <p class="text-gray-700 leading-relaxed mb-6 text-lg">This compact EWS housing unit is designed with a circular layout, optimizing space efficiency while maintaining functionality.</p>
+        <p class="text-gray-700 leading-relaxed mb-6 text-lg">Compact EWS housing unit with circular layout for space efficiency and functionality.</p>
         <ul class="space-y-3 text-gray-700 text-lg">
           <li><span class="font-semibold">Unit area:</span> 38.35 Sq.m</li>
           <li><span class="font-semibold">No. of floors:</span> G + 3</li>
@@ -88,12 +149,12 @@
       </div>
     </div>
 
-    <!-- Block 3 -->
-    <div class="grid md:grid-cols-2 gap-12 items-center">
-      <img src="images/2c.png" alt="Project 2 Image 3" class="rounded-2xl shadow-2xl cursor-pointer popup-img" />
+    <!-- Block 3: LIG -->
+    <div class="grid md:grid-cols-2 gap-12 items-center fade-zoom">
+      <img src="images/2c.png" alt="Project LIG" class="rounded-2xl shadow-2xl cursor-pointer popup-img" />
       <div>
         <h2 class="text-4xl font-semibold mb-6">L.I.G</h2>
-        <p class="text-gray-700 leading-relaxed mb-6 text-lg">A compact LIG unit with a functional rectangular layout, providing efficient zoning of living, bedroom, kitchen, toilet, and balcony.</p>
+        <p class="text-gray-700 leading-relaxed mb-6 text-lg">Functional rectangular layout for efficient zoning of living, bedroom, kitchen, toilet, and balcony.</p>
         <ul class="space-y-3 text-gray-700 text-lg">
           <li><span class="font-semibold">Unit area:</span> 46.26 Sq.m</li>
           <li><span class="font-semibold">No. of floors:</span> S + 5</li>
@@ -102,14 +163,14 @@
       </div>
     </div>
 
-    <!-- Block 4 (reverse) -->
-    <div class="grid md:grid-cols-2 gap-12 items-center">
+    <!-- Block 4: MIG -->
+    <div class="grid md:grid-cols-2 gap-12 items-center fade-zoom">
       <div class="md:order-2">
-        <img src="images/2d.png" alt="Project 2 Image 4" class="rounded-2xl shadow-2xl cursor-pointer popup-img" />
+        <img src="images/2d.png" alt="Project MIG" class="rounded-2xl shadow-2xl cursor-pointer popup-img" />
       </div>
       <div class="md:order-1">
         <h2 class="text-4xl font-semibold mb-6">M.I.G</h2>
-        <p class="text-gray-700 leading-relaxed mb-6 text-lg">A MIG unit with balanced zoning, featuring a living and dining area, two bedrooms, kitchen with utility, toilets, and balcony for family living.</p>
+        <p class="text-gray-700 leading-relaxed mb-6 text-lg">Balanced zoning: living & dining, two bedrooms, kitchen with utility, toilets, and balcony for family living.</p>
         <ul class="space-y-3 text-gray-700 text-lg">
           <li><span class="font-semibold">Unit area:</span> 74 Sq.m</li>
           <li><span class="font-semibold">No. of floors:</span> S + 9</li>
@@ -118,77 +179,158 @@
       </div>
     </div>
 
-    <!-- Block 5 -->
-    <div class="grid md:grid-cols-2 gap-12 items-center">
-      <img src="images/2e.png" alt="Project 2 Image 5" class="rounded-2xl shadow-2xl cursor-pointer popup-img" />
-      <div>
-        <h2 class="text-4xl font-semibold mb-6">H.I.G</h2>
-        <p class="text-gray-700 leading-relaxed mb-8 text-lg">A spacious HIG unit with three bedrooms, attached and common toilets, dual living areas, dining, kitchen with utility, and multiple balconies offering enhanced comfort and openness.</p>
+   <!-- Block 5: HIG + Commercial/Residential side by side -->
+   <div class="grid md:grid-cols-2 gap-12 items-center fade-zoom">
+     <img src="images/2e.png" alt="Project HIG" class="rounded-2xl shadow-2xl cursor-pointer popup-img" />
+     <div>
+       <h2 class="text-4xl font-semibold mb-6">H.I.G</h2>
+       <p class="text-gray-700 leading-relaxed mb-8 text-lg">Spacious HIG unit: 3 bedrooms, dual living, dining, kitchen with utility, multiple balconies for comfort.</p>
 
-        <!-- COMMERCIAL -->
-        <h3 class="font-bold text-2xl mt-8 mb-4">COMMERCIAL</h3>
-        <ul class="space-y-3 text-gray-700 text-lg">
-          <li><span class="font-semibold">Floor area:</span> 855 Sq.m</li>
-          <li><span class="font-semibold">No. of floors:</span> G + 1</li>
-          <li><span class="font-semibold">Built-up area:</span> 1710 Sq.m</li>
-        </ul>
+       <div class="flex flex-col md:flex-row gap-12">
+         <!-- Commercial -->
+         <div>
+           <h3 class="font-bold text-2xl mb-4">COMMERCIAL</h3>
+           <ul class="space-y-3 text-gray-700 text-lg">
+             <li><span class="font-semibold">Floor area:</span> 855 Sq.m</li>
+             <li><span class="font-semibold">No. of floors:</span> G + 1</li>
+             <li><span class="font-semibold">Built-up area:</span> 1710 Sq.m</li>
+           </ul>
+         </div>
 
-        <!-- RESIDENTIAL -->
-        <h3 class="font-bold text-2xl mt-10 mb-4">RESIDENTIAL</h3>
-        <ul class="space-y-3 text-gray-700 text-lg">
-          <li><span class="font-semibold">Unit area:</span> 107.53 Sq.m</li>
-          <li><span class="font-semibold">No. of floors:</span> 06</li>
-          <li><span class="font-semibold">Built-up area:</span> 2580.72 Sq.m</li>
-        </ul>
-      </div>
-    </div>
+         <!-- Residential -->
+         <div>
+           <h3 class="font-bold text-2xl mb-4">RESIDENTIAL</h3>
+           <ul class="space-y-3 text-gray-700 text-lg">
+             <li><span class="font-semibold">Unit area:</span> 107.53 Sq.m</li>
+             <li><span class="font-semibold">No. of floors:</span> 06</li>
+             <li><span class="font-semibold">Built-up area:</span> 2580.72 Sq.m</li>
+           </ul>
+         </div>
+       </div>
+     </div>
+   </div>
 
-    <!-- Extra Images Section -->
-    <div class="mt-20 text-center">
+    <!-- Project Gallery -->
+    <div class="mt-20 text-center fade-zoom">
       <h2 class="text-4xl font-bold mb-12">P R O J E C T &nbsp; G A L L E R Y</h2>
-      <!-- Enlarged Clickable Images in a Single Row -->
       <div class="flex justify-center gap-12 flex-wrap">
-        <img src="./images/2g.png" alt="Project 2 Image 6" class="w-[500px] rounded-2xl shadow-2xl cursor-pointer popup-img hover:scale-105 transition-transform duration-300" />
-        <img src="./images/2f.png" alt="Project 2 Image 7" class="w-[500px] rounded-2xl shadow-2xl cursor-pointer popup-img hover:scale-105 transition-transform duration-300" />
-        <img src="./images/2h.png" alt="Project 2 Image 8" class="w-[500px] rounded-2xl shadow-2xl cursor-pointer popup-img hover:scale-105 transition-transform duration-300" />
+        <img src="./images/2g.png" alt="Project 6" class="w-[500px] rounded-2xl shadow-2xl cursor-pointer popup-img hover:scale-105 transition-transform duration-300" />
+        <img src="./images/2f.png" alt="Project 7" class="w-[500px] rounded-2xl shadow-2xl cursor-pointer popup-img hover:scale-105 transition-transform duration-300" />
+        <img src="./images/2h.png" alt="Project 8" class="w-[500px] rounded-2xl shadow-2xl cursor-pointer popup-img hover:scale-105 transition-transform duration-300" />
       </div>
     </div>
 
   </section>
 
-  <!-- Back to Portfolio Button -->
+  <!-- Back Button -->
   <div class="max-w-7xl mx-auto px-8 py-16 text-center">
     <a href="index.html" class="inline-block px-8 py-4 bg-black text-white text-xl rounded-full hover:bg-gray-800">Back to Portfolio</a>
   </div>
 
-  <!-- Popup Modal -->
-  <div id="popupModal" class="modal">
-    <span class="close">&times;</span>
+  <!-- Popup Modal (kept HTML exactly as provided) -->
+  <div id="popupModal" class="modal group" aria-hidden="true" role="dialog" aria-label="Image viewer">
+    <span class="close" role="button" aria-label="Close">×</span>
+    <button id="prev" class="modal-arrow left" aria-label="Previous image">&#10094;</button>
     <img id="popupImage" src="" alt="Popup Image">
+    <button id="next" class="modal-arrow right" aria-label="Next image">&#10095;</button>
   </div>
 
   <script>
-    const modal = document.getElementById("popupModal");
-    const modalImg = document.getElementById("popupImage");
-    const closeBtn = document.querySelector(".close");
-    const images = document.querySelectorAll(".popup-img");
+    // collect all popup thumbnails (in document order)
+    const popupThumbs = Array.from(document.querySelectorAll('.popup-img'));
+    const modal = document.getElementById('popupModal');
+    const modalImg = document.getElementById('popupImage');
+    const closeBtn = document.querySelector('.close');
+    const leftBtn = document.getElementById('prev');
+    const rightBtn = document.getElementById('next');
+    let currentIndex = 0;
 
-    images.forEach(img => {
-      img.addEventListener("click", () => {
-        modal.style.display = "flex";
-        modalImg.src = img.src;
-      });
+    // add click handlers to thumbnails
+    popupThumbs.forEach((thumb, i) => {
+      thumb.addEventListener('click', () => openModal(i));
     });
 
-    closeBtn.onclick = () => {
-      modal.style.display = "none";
-    };
+    // open modal by index
+    function openModal(index) {
+      currentIndex = index;
+      // ensure modal is visible
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
 
-    modal.onclick = (e) => {
-      if (e.target === modal) {
-        modal.style.display = "none";
-      }
-    };
+      // prepare image fade: remove loaded class then set src, add loaded on load
+      modalImg.classList.remove('loaded');
+      modalImg.src = popupThumbs[currentIndex].src;
+      // ensure image fades in when ready
+      modalImg.onload = () => {
+        // force a small delay so transition is visible
+        requestAnimationFrame(() => modalImg.classList.add('loaded'));
+      };
+    }
+
+    function closeModal() {
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+      // clear src after closing to avoid large memory usage on mobile
+      setTimeout(() => { modalImg.src = ''; modalImg.classList.remove('loaded'); }, 300);
+    }
+
+    // change image by step (+1 or -1)
+    function changeImage(step) {
+      currentIndex = (currentIndex + step + popupThumbs.length) % popupThumbs.length;
+      // fade swap
+      modalImg.classList.remove('loaded');
+      // small timeout helps the transition look smooth on some browsers
+      setTimeout(() => {
+        modalImg.src = popupThumbs[currentIndex].src;
+      }, 60);
+      modalImg.onload = () => modalImg.classList.add('loaded');
+    }
+
+    // click outside closes
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    // close button
+    closeBtn.addEventListener('click', closeModal);
+
+    // left / right arrow click handlers
+    leftBtn.addEventListener('click', (e) => { e.stopPropagation(); changeImage(-1); });
+    rightBtn.addEventListener('click', (e) => { e.stopPropagation(); changeImage(1); });
+
+    // keyboard nav while modal is open
+    document.addEventListener('keydown', (e) => {
+      if (!modal.classList.contains('open')) return;
+      if (e.key === 'ArrowLeft') changeImage(-1);
+      if (e.key === 'ArrowRight') changeImage(1);
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // swipe gestures on modal
+    let touchStartX = 0;
+    modal.addEventListener('touchstart', (e) => {
+      if (!modal.classList.contains('open')) return;
+      touchStartX = e.changedTouches[0].clientX;
+    }, {passive: true});
+
+    modal.addEventListener('touchend', (e) => {
+      if (!modal.classList.contains('open')) return;
+      const touchEndX = e.changedTouches[0].clientX;
+      const dx = touchEndX - touchStartX;
+      if (dx > 50) changeImage(-1);      // swipe right => prev
+      if (dx < -50) changeImage(1);      // swipe left => next
+    }, {passive: true});
+
+    // simple scroll reveal for fade-zoom class to match Project 3 behavior
+    const fadeElems = document.querySelectorAll('.fade-zoom');
+    function revealOnScroll() {
+      fadeElems.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) el.classList.add('show');
+      });
+    }
+    window.addEventListener('load', revealOnScroll);
+    window.addEventListener('scroll', revealOnScroll);
   </script>
 
 </body>
