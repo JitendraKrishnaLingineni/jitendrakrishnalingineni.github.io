@@ -1,11 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Project 3 | Jitendra Krishna</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Modal backdrop + animation */
+    #imageModal {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.85);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.35s ease, visibility 0.35s;
+      z-index: 9999;
+    }
+    #imageModal.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Modal image fade in/out */
+    #modalImg {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 1rem;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+      display: block;
+      opacity: 0;
+      transform: scale(0.98);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    #modalImg.loaded {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Close button (top right) */
+    .modal-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 2rem;
+      color: white;
+      font-size: 2.25rem;
+      cursor: pointer;
+      z-index: 10000;
+      user-select: none;
+    }
+
+    /* Arrow buttons (match Project 1 & 2) */
+    .modal-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: #fff;
+      background: rgba(0,0,0,0.6);
+      padding: 0.75rem 1.1rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      user-select: none;
+      z-index: 10000;
+      transition: background 0.25s ease, transform 0.18s ease, opacity 0.25s ease;
+      opacity: 0; /* hidden by default — will show on hover */
+    }
+    .modal-arrow.left { left: 1.5rem; }
+    .modal-arrow.right { right: 1.5rem; }
+    .modal-arrow:hover { background: rgba(0,0,0,0.85); transform: translateY(-50%) scale(1.08); }
+
+    /* Show arrows only when modal is open and hovered */
+    #imageModal.open:hover .modal-arrow { opacity: 1; }
+
+    /* Thumbnail hover effect */
+    .popup-img {
+      transition: transform 0.35s ease;
+      will-change: transform;
+      cursor: pointer;
+    }
+    .popup-img:hover {
+      transform: scale(1.06);
+    }
+
+    /* subtle scroll-reveal used in your prior code */
+    .fade-zoom { opacity: 0; transform: scale(0.98); transition: all 0.6s ease; }
+    .fade-zoom.show { opacity: 1; transform: scale(1); }
+  </style>
 </head>
 
 <body class="bg-white text-gray-900">
@@ -17,16 +101,17 @@
 
   <!-- Project Hero -->
   <section class="relative h-80 flex flex-col justify-center items-center text-center bg-gray-100 mb-12">
-    <h1 class="text-5xl md:text-6xl font-bold mb-4">M U L T I - S P E C I A L T Y  H O S P I T A L</h1>
+    <h1 class="text-5xl md:text-6xl font-bold mb-4">M U L T I - S P E C I A L T Y H O S P I T A L</h1>
     <p class="text-xl md:text-2xl text-gray-600">A DESIGNED SPACE FOR COMPREHENSIVE HEALING</p>
   </section>
 
   <!-- Project Details (Blocks 1-8) -->
   <section class="max-w-6xl mx-auto py-12 px-6 space-y-16">
 
-    <!-- All blocks with clickable images -->
-    <div class="grid md:grid-cols-2 gap-8 items-center">
-      <img src="./images/3a.png" alt="Project 3 Image 1" class="w-full h-auto rounded-xl shadow-lg cursor-pointer" onclick="openModal(this.src)" />
+    <!-- Block 1 -->
+    <div class="grid md:grid-cols-2 gap-8 items-center fade-zoom">
+      <img src="./images/3a.png" alt="Project 3 Image 1"
+           class="w-full h-auto rounded-xl shadow-lg popup-img" data-index="0" />
       <div>
         <h2 class="text-4xl font-semibold mb-6">S I T E</h2>
         <div class="space-y-3 leading-relaxed text-gray-700 text-lg">
@@ -40,85 +125,109 @@
       </div>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-8 items-center">
+    <!-- Block 2 -->
+    <div class="grid md:grid-cols-2 gap-8 items-center fade-zoom">
       <div class="md:order-2">
-        <img src="./images/3b.png" alt="Project 3 Image 2" class="w-full h-auto rounded-xl shadow-lg cursor-pointer" onclick="openModal(this.src)" />
+        <img src="./images/3b.png" alt="Project 3 Image 2"
+             class="w-full h-auto rounded-xl shadow-lg popup-img" data-index="1" />
       </div>
       <div class="md:order-1">
-        <h2 class="text-3xl font-semibold mb-4">G R O U N D  F L O O R  P L A N</h2>
+        <h2 class="text-3xl font-semibold mb-4">G R O U N D F L O O R P L A N</h2>
         <p class="text-gray-700">Reception, consultation rooms, pharmacy, laboratory, emergency, and diagnostic facilities with smooth circulation.</p>
       </div>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-8 items-center">
-      <img src="./images/3c.png" alt="Project 3 Image 3" class="w-full h-auto rounded-xl shadow-lg cursor-pointer" onclick="openModal(this.src)" />
+    <!-- Block 3 -->
+    <div class="grid md:grid-cols-2 gap-8 items-center fade-zoom">
+      <img src="./images/3c.png" alt="Project 3 Image 3"
+           class="w-full h-auto rounded-xl shadow-lg popup-img" data-index="2" />
       <div>
-        <h2 class="text-3xl font-semibold mb-4">F I R S T  F L O O R  P L A N</h2>
+        <h2 class="text-3xl font-semibold mb-4">F I R S T F L O O R P L A N</h2>
         <p class="text-gray-700">Specialty departments with consultation rooms, OTs, and patient wards. Central atrium enhances light and ventilation.</p>
       </div>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-8 items-center">
+    <!-- Block 4 -->
+    <div class="grid md:grid-cols-2 gap-8 items-center fade-zoom">
       <div class="md:order-2">
-        <img src="./images/3d.png" alt="Project 3 Image 4" class="w-full h-auto rounded-xl shadow-lg cursor-pointer" onclick="openModal(this.src)" />
+        <img src="./images/3d.png" alt="Project 3 Image 4"
+             class="w-full h-auto rounded-xl shadow-lg popup-img" data-index="3" />
       </div>
       <div class="md:order-1">
-        <h2 class="text-3xl font-semibold mb-4">S E C O N D  F L O O R  P L A N</h2>
+        <h2 class="text-3xl font-semibold mb-4">S E C O N D F L O O R P L A N</h2>
         <p class="text-gray-700">Urology, Gastroenterology, Neurology, ICU, SICU, Dialysis, wards, and OTs with support services.</p>
       </div>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-8 items-center">
-      <img src="./images/3e.png" alt="Project 3 Image 5" class="w-full h-auto rounded-xl shadow-lg cursor-pointer" onclick="openModal(this.src)" />
+    <!-- Block 5 -->
+    <div class="grid md:grid-cols-2 gap-8 items-center fade-zoom">
+      <img src="./images/3e.png" alt="Project 3 Image 5"
+           class="w-full h-auto rounded-xl shadow-lg popup-img" data-index="4" />
       <div>
-        <h2 class="text-3xl font-semibold mb-4">T H I R D  F L O O R  P L A N</h2>
+        <h2 class="text-3xl font-semibold mb-4">T H I R D F L O O R P L A N</h2>
         <p class="text-gray-700">Executive Suites, wards, consultation rooms, and service areas with lifts, ramps, and fire exits.</p>
       </div>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-8 items-center">
+    <!-- Block 6 -->
+    <div class="grid md:grid-cols-2 gap-8 items-center fade-zoom">
       <div class="md:order-2">
-        <img src="./images/3f.png" alt="Project 3 Image 6" class="w-full h-auto rounded-xl shadow-lg cursor-pointer" onclick="openModal(this.src)" />
+        <img src="./images/3f.png" alt="Project 3 Image 6"
+             class="w-full h-auto rounded-xl shadow-lg popup-img" data-index="5" />
       </div>
       <div class="md:order-1">
-        <h2 class="text-3xl font-semibold mb-4">F O U R T H  F L O O R  P L A N</h2>
+        <h2 class="text-3xl font-semibold mb-4">F O U R T H F L O O R P L A N</h2>
         <p class="text-gray-700">Dietitian room, cafeteria, single-bedded wards, ADA-compliant toilets, CCTV, storage, and service areas.</p>
       </div>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-8 items-center">
-      <img src="./images/3g.png" alt="Project 3 Image 7" class="w-full h-auto rounded-xl shadow-lg cursor-pointer" onclick="openModal(this.src)" />
+    <!-- Block 7 -->
+    <div class="grid md:grid-cols-2 gap-8 items-center fade-zoom">
+      <img src="./images/3g.png" alt="Project 3 Image 7"
+           class="w-full h-auto rounded-xl shadow-lg popup-img" data-index="6" />
       <div>
-        <h2 class="text-3xl font-semibold mb-4">T E R R A C E  F L O O R  P L A N</h2>
+        <h2 class="text-3xl font-semibold mb-4">T E R R A C E F L O O R P L A N</h2>
         <p class="text-gray-700">DG room, water tanks, electrical block, AHUs, toilets, and manifold room with safe service circulation.</p>
       </div>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-8 items-center">
+    <!-- Block 8 -->
+    <div class="grid md:grid-cols-2 gap-8 items-center fade-zoom">
       <div class="md:order-2">
-        <img src="./images/3h.png" alt="Project 3 Image 8" class="w-full h-auto rounded-xl shadow-lg cursor-pointer" onclick="openModal(this.src)" />
+        <img src="./images/3h.png" alt="Project 3 Image 8"
+             class="w-full h-auto rounded-xl shadow-lg popup-img" data-index="7" />
       </div>
       <div class="md:order-1">
-        <h2 class="text-3xl font-semibold mb-4">E L E V A T I O N & S I T E  S E C T I O N</h2>
+        <h2 class="text-3xl font-semibold mb-4">E L E V A T I O N & S I T E S E C T I O N</h2>
         <p class="text-gray-700">Façade with emphasis on natural light, accessibility, ample parking, helipad, circulation, and landscaped areas.</p>
       </div>
     </div>
 
     <!-- Extra Gallery Images -->
-    <div class="mt-20 text-center">
+    <div class="mt-20 text-center fade-zoom">
       <h2 class="text-4xl font-bold mb-12">P R O J E C T &nbsp; G A L L E R Y</h2>
       <div class="flex justify-center gap-12 flex-wrap">
-        <img src="./images/3i.jpg" alt="Project 3 Image 9" class="w-[500px] rounded-2xl shadow-2xl cursor-pointer hover:scale-105 transition-transform duration-300" onclick="openModal(this.src)" />
-        <img src="./images/3j.jpg" alt="Project 3 Image 10" class="w-[500px] rounded-2xl shadow-2xl cursor-pointer hover:scale-105 transition-transform duration-300" onclick="openModal(this.src)" />
+        <img src="./images/3i.jpg" alt="Project 3 Image 9"
+             class="w-[500px] rounded-2xl shadow-2xl popup-img" data-index="8" />
+        <img src="./images/3j.jpg" alt="Project 3 Image 10"
+             class="w-[500px] rounded-2xl shadow-2xl popup-img" data-index="9" />
       </div>
     </div>
 
   </section>
 
-  <!-- Modal -->
-  <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center hidden z-50">
-    <span class="absolute top-6 right-6 text-white text-3xl cursor-pointer font-bold" onclick="closeModal()">&times;</span>
-    <img id="modalImg" src="" class="max-h-[90%] max-w-[90%] rounded-2xl shadow-2xl" />
+  <!-- Modal (same arrow style & behavior as Project 1 & 2) -->
+  <div id="imageModal" aria-hidden="true" role="dialog" aria-label="Image viewer">
+    <div class="modal-close" role="button" aria-label="Close" onclick="closeModal()">×</div>
+
+    <!-- left arrow -->
+    <button class="modal-arrow left" aria-label="Previous image" onclick="changeImage(-1)">&#10094;</button>
+
+    <!-- image -->
+    <img id="modalImg" src="" alt="Open project image">
+
+    <!-- right arrow -->
+    <button class="modal-arrow right" aria-label="Next image" onclick="changeImage(1)">&#10095;</button>
   </div>
 
   <!-- Back to Portfolio Button -->
@@ -126,23 +235,94 @@
     <a href="index.html" class="inline-block px-6 py-3 bg-black text-white rounded-full hover:bg-gray-800">Back to Portfolio</a>
   </div>
 
-  <!-- Modal JS -->
   <script>
-    function openModal(src) {
-      document.getElementById('modalImg').src = src;
-      document.getElementById('imageModal').classList.remove('hidden');
+    // collect all popup thumbnails (in document order)
+    const popupThumbs = Array.from(document.querySelectorAll('.popup-img'));
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImg');
+    const leftBtn = document.querySelector('.modal-arrow.left');
+    const rightBtn = document.querySelector('.modal-arrow.right');
+    let currentIndex = 0;
+
+    // add click handlers to thumbnails
+    popupThumbs.forEach((thumb, i) => {
+      thumb.addEventListener('click', () => openModal(i));
+    });
+
+    // open modal by index
+    function openModal(index) {
+      currentIndex = index;
+      // ensure modal is visible
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+
+      // prepare image fade: remove loaded class then set src, add loaded on load
+      modalImg.classList.remove('loaded');
+      modalImg.src = popupThumbs[currentIndex].src;
+      // ensure image fades in when ready
+      modalImg.onload = () => {
+        // force a small delay so transition is visible
+        requestAnimationFrame(() => modalImg.classList.add('loaded'));
+      };
     }
 
     function closeModal() {
-      document.getElementById('imageModal').classList.add('hidden');
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+      // clear src after closing to avoid large memory usage on mobile
+      setTimeout(() => { modalImg.src = ''; modalImg.classList.remove('loaded'); }, 300);
     }
 
-    // Close modal on clicking outside the image
-    document.getElementById('imageModal').addEventListener('click', function(e) {
-      if (e.target === this) closeModal();
-    });
-  </script>
+    // change image by step (+1 or -1)
+    function changeImage(step) {
+      currentIndex = (currentIndex + step + popupThumbs.length) % popupThumbs.length;
+      // fade swap
+      modalImg.classList.remove('loaded');
+      // small timeout helps the transition look smooth on some browsers
+      setTimeout(() => {
+        modalImg.src = popupThumbs[currentIndex].src;
+      }, 60);
+      modalImg.onload = () => modalImg.classList.add('loaded');
+    }
 
+    // click outside closes
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    // keyboard nav while modal is open
+    document.addEventListener('keydown', (e) => {
+      if (!modal.classList.contains('open')) return;
+      if (e.key === 'ArrowLeft') changeImage(-1);
+      if (e.key === 'ArrowRight') changeImage(1);
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // swipe gestures on modal
+    let touchStartX = 0;
+    modal.addEventListener('touchstart', (e) => {
+      if (!modal.classList.contains('open')) return;
+      touchStartX = e.changedTouches[0].clientX;
+    }, {passive: true});
+
+    modal.addEventListener('touchend', (e) => {
+      if (!modal.classList.contains('open')) return;
+      const touchEndX = e.changedTouches[0].clientX;
+      const dx = touchEndX - touchStartX;
+      if (dx > 50) changeImage(-1);      // swipe right => prev
+      if (dx < -50) changeImage(1);      // swipe left => next
+    }, {passive: true});
+
+    // simple scroll reveal for fade-zoom class to match Project1 behavior
+    const fadeElems = document.querySelectorAll('.fade-zoom');
+    function revealOnScroll() {
+      fadeElems.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) el.classList.add('show');
+      });
+    }
+    window.addEventListener('load', revealOnScroll);
+    window.addEventListener('scroll', revealOnScroll);
+  </script>
 </body>
 </html>
-
